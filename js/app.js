@@ -10,21 +10,16 @@ var playerRightImg= new Image();
 var obstacle = new Image();
 var px = 0;
 var py = 0;
-var marioX = 285 ;
+var marioX = 283 ;
 var marioY = 365 ;
 var gravityfunction = function (){
     if (marioY <365){
-        marioY += 0.5 
+        marioY += 1.5 
     } else{
         marioY = marioY;
     }
 }
-var obstacles = [];
 
-obstacles[0] = {
-    x: canvas.width,
-    y: 280
-};
 
 
 bg.src = "/images/background.png";
@@ -39,16 +34,40 @@ function getDistance(x1,y1,x2,y2){
     let yDifference = y2-y1
     return Math.sqrt(Math.pow(xDifference,2) + Math.pow(yDifference,2))
 };
-obstacleX = 925;
-obstacleY = 200
+var obstacles = [];
+
+obstacles[0] = {
+    x: 925,
+    y: 280,
+}
+var obstacleX = 925;
+var obstacleY = 365;
+
+function gameOver(){
+    if(marioX === obstacleX && marioY === 365){
+        alert("game over")
+    }
+}
 
 function draw(){
 
     c.clearRect(0,0,canvas.width,canvas.height);
 
     c.drawImage(bg,0,0,canvas.width, canvas.height);
-    c.drawImage(obstacle,obstacleX,360, 50, 50);
-    obstacleX -= 3;
+    for(let i=0; i<obstacles.length; i++){
+
+        c.drawImage(obstacle,obstacles[i].x,360, 50, 30);
+        
+        obstacles[i].x -= 1;
+
+        if(obstacles[i].x==310){
+            obstacles.push({
+                x : 925,
+                y : 280,
+            })
+        }
+    }
+  
     // c.drawImage(playerLeftImg, 20, 20 )
     c.drawImage(playerRightImg, marioX ,marioY);
     // c.drawImage(obstacle,280, 255, 50,50);
@@ -56,6 +75,7 @@ function draw(){
 
     requestAnimationFrame(draw);  
     gravityfunction();
+    gameOver();
 };
 draw();
 
@@ -65,51 +85,51 @@ function moveSquare(e){
         case 37:
             // left key is pressed
             if(marioX > 0) {
-                marioX -= 10;
+                marioX -= 70;
                 marioY-=0;
                 console.log(marioX)
             } else if (marioX<= 0){
                 marioX-= 0
                 marioY -= 0
             }
-            draw();
+            // draw();
             break;
         case 32:
             // space key is pressed
             if(marioY > 0){
-                (marioY-= 90);
+                (marioY-= 160);
                 marioX += 0;
             } else if(marioY <=0){
                 marioY -= 0;
                 marioX -= 0;
             }
-            draw();
+            // draw();
     
             break;
         case 39:
             // right key is pressed
             if(marioX < 925 ){
                 marioY+= 0;
-                marioX += 10;
+                marioX += 70;
                 console.log(marioX)
             } else if(marioX >= 925){
                 marioY -= 0;
                 marioX += 0;
                 console.log(marioX)
             }
-            draw();
+            // draw();
     
             break;
         case 40:
             if(marioY < 365){
-                marioY += 10;
+                marioY += 70;
                 marioX -=0;
                 console.log(marioY)
             } else if(marioY >= canvas.height){
                 marioY -= 0;
                 marioY -=0;
             }
-            draw();
+            // draw();
             // down key is pressed
             break;
     };
