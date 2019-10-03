@@ -8,17 +8,20 @@ var bg = new Image();
 var playerLeftImg = new Image();
 var playerRightImg= new Image();
 var obstacle = new Image();
-var px = 0;
-var py = 0;
 var marioX = 283 ;
 var marioY = 365 ;
+var obstacleWidth = 30;
+var obstacleHeight = 50
+var score = 0;
 var gravityfunction = function (){
     if (marioY <365){
         marioY += 1.5 
     } else{
         marioY = marioY;
     }
-}
+};
+// Timer Countdown Functions
+// Every second, reduce countdown by 1. When no time is left, stop the countdown, display score, offer "try again" button. On button click, restart countdown
 
 
 
@@ -38,14 +41,22 @@ var obstacles = [];
 
 obstacles[0] = {
     x: 925,
-    y: 280,
+    y: 365,
 }
-var obstacleX = 925;
-var obstacleY = 365;
 
-function gameOver(){
-    if(marioX === obstacleX && marioY === 365){
-        alert("game over")
+function collisionDetection(){
+    for (let i = 0; i<obstacles.length; i++){
+        if(marioX > obstacles[i].x && (marioX < obstacles[i].x + obstacleWidth -20) && marioY> obstacles[i].y && marioY < obstacles[i].y + obstacleHeight) {
+            console.log("game Over");
+            console.log(`obstacle : x = ${obstacles[i].x}`)
+            console.log(`obstacle : y = ${obstacles[i].y}`)
+            console.log(`MarioX : x = ${marioX}`)
+            console.log(`Mario Y: ${marioY}`)
+            console.log(`obstacle Width : ${obstacleWidth}`)
+            console.log(`obstacle height : ${obstacleHeight}`)
+
+            debugger
+        } 
     }
 }
 
@@ -56,28 +67,29 @@ function draw(){
     c.drawImage(bg,0,0,canvas.width, canvas.height);
     for(let i=0; i<obstacles.length; i++){
 
-        c.drawImage(obstacle,obstacles[i].x,360, 50, 30);
+        c.drawImage(obstacle,obstacles[i].x,365, obstacleWidth, obstacleHeight);
         
-        obstacles[i].x -= 1;
+        obstacles[i].x -= 5;
 
-        if(obstacles[i].x==310){
+        if(obstacles[i].x==350){
             obstacles.push({
                 x : 925,
-                y : 280,
+                y : 365,
             })
+        } if(obstacles[i] == ){
+            score++
         }
-    }
-  
-    // c.drawImage(playerLeftImg, 20, 20 )
+    };
+
     c.drawImage(playerRightImg, marioX ,marioY);
-    // c.drawImage(obstacle,280, 255, 50,50);
-    // console.log(getDistance(,200,marioX,marioY))
+    c.fillStyle = "black";
+    c.font = "20px arial"
+    c.fillText("Score :" + score,10, 10)
 
     requestAnimationFrame(draw);  
     gravityfunction();
-    gameOver();
+    collisionDetection();
 };
-draw();
 
 function moveSquare(e){
     e.preventDefault();
@@ -85,7 +97,7 @@ function moveSquare(e){
         case 37:
             // left key is pressed
             if(marioX > 0) {
-                marioX -= 70;
+                marioX -= 10;
                 marioY-=0;
                 console.log(marioX)
             } else if (marioX<= 0){
@@ -110,7 +122,7 @@ function moveSquare(e){
             // right key is pressed
             if(marioX < 925 ){
                 marioY+= 0;
-                marioX += 70;
+                marioX += 10;
                 console.log(marioX)
             } else if(marioX >= 925){
                 marioY -= 0;
