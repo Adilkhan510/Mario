@@ -8,6 +8,9 @@ var bg = new Image();
 var playerLeftImg = new Image();
 var playerRightImg= new Image();
 var obstacle = new Image();
+var px = 0;
+var py = 0;
+timeLeft = 30;
 var marioX = 283 ;
 var marioY = 365 ;
 var obstacleWidth = 30;
@@ -41,15 +44,16 @@ var obstacles = [];
 
 obstacles[0] = {
     x: 925,
-    y: 365,
+    y: 280,
 }
-
+var obstacleX = 925;
+var obstacleY = 365;
 function collisionDetection(){
     for (let i = 0; i<obstacles.length; i++){
-        if(marioX > obstacles[i].x && (marioX < obstacles[i].x + obstacleWidth -20) && marioY> obstacles[i].y && marioY < obstacles[i].y + obstacleHeight) {
+        if(marioX > obstacles[i].x && marioX < obstacles[i].x + obstacleWidth && marioY> obstacles[i].y && marioY < obstacles[i].y + obstacleHeight) {
             console.log("game Over");
-            console.log(`obstacle : x = ${obstacles[i].x}`)
-            console.log(`obstacle : y = ${obstacles[i].y}`)
+            console.log(`obstacle : x = obstacles${[i]}.x`)
+            console.log(`obstacle : y = obstacles${[i]}.y`)
             console.log(`MarioX : x = ${marioX}`)
             console.log(`Mario Y: ${marioY}`)
             console.log(`obstacle Width : ${obstacleWidth}`)
@@ -67,16 +71,16 @@ function draw(){
     c.drawImage(bg,0,0,canvas.width, canvas.height);
     for(let i=0; i<obstacles.length; i++){
 
-        c.drawImage(obstacle,obstacles[i].x,365, obstacleWidth, obstacleHeight);
+        c.drawImage(obstacle,obstacles[i].x,360, obstacleWidth, obstacleHeight);
         
-        obstacles[i].x -= 5;
+        obstacles[i].x -= 2;
 
-        if(obstacles[i].x==350){
+        if(obstacles[i].x < 355){
             obstacles.push({
                 x : 925,
-                y : 365,
+                y : 280,
             })
-        } if(obstacles[i] == ){
+        } if(obstacles[i] < marioX){
             score++
         }
     };
@@ -84,7 +88,7 @@ function draw(){
     c.drawImage(playerRightImg, marioX ,marioY);
     c.fillStyle = "black";
     c.font = "20px arial"
-    c.fillText("Score :" + score,10, 10)
+    c.fillText("Score :" +score,10, 10)
 
     requestAnimationFrame(draw);  
     gravityfunction();
@@ -97,7 +101,7 @@ function moveSquare(e){
         case 37:
             // left key is pressed
             if(marioX > 0) {
-                marioX -= 10;
+                marioX -= 70;
                 marioY-=0;
                 console.log(marioX)
             } else if (marioX<= 0){
@@ -122,7 +126,7 @@ function moveSquare(e){
             // right key is pressed
             if(marioX < 925 ){
                 marioY+= 0;
-                marioX += 10;
+                marioX += 70;
                 console.log(marioX)
             } else if(marioX >= 925){
                 marioY -= 0;

@@ -12,7 +12,19 @@ class Game {
         this.objectImg = new Image();
         this.objectImg.src = "images/obstacle.png"
         this.objectSpeed = 2;
+        this.score = 0;
+        this.Playerimg = new Image();
+        this.Playerimg.src = "images/marioright.png";
     };
+
+    createMario(){
+        c.drawImage(this.Playerimg,283, 365,)
+    }
+    createScoreBoard(){
+        c.fillStyle = "black";
+        c.font = "20px arial"
+        c.fillText("Score :" + this.score,10, 10)
+    }
     createAnObject(){
         let width = 40;
         let height = 50;
@@ -53,11 +65,23 @@ class Game {
         };
         if(this.objects[0].x <=0){
             this.objects.shift();
+            this.score += 1;
         };
+    };
+    startGame(){
+        this.draw();
     }
-    
-
+    draw(){
+        this.createAnObject();
+        this.drawObjects();
+        this.drawBackgroundImg();
+        this.moveObjects();
+        window.requestAnimationFrame(this.draw())
+    }
 }
+
+const mario = new Game();
+mario.startGame();
 
 class Player {
     constructor(){
