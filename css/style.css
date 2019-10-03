@@ -1,3 +1,12 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+html, body{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
 canvas {
     border: 4px solid black;
     display : block;
@@ -6,5 +15,18 @@ canvas {
 }
 
 body {
-    background: url('/images/back.png')
+    background: url('/images/back.png');
+    background-position-x: center;
+    background-position-y: center;
+    text-align: center;
+}
+
+button{
+    width: 300.68px;
+    height: 70.68px;
+    position: relative;
+    bottom: 40%;
+    font-size: 30px;
+    background-color: gold;
+    border: 1px solid black;
 }

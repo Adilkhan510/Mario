@@ -48,19 +48,24 @@ obstacles[0] = {
 }
 var obstacleX = 925;
 var obstacleY = 365;
+
+let alive = true;
 function collisionDetection(){
     for (let i = 0; i<obstacles.length; i++){
-        if(marioX > obstacles[i].x && marioX < obstacles[i].x + obstacleWidth && marioY> obstacles[i].y && marioY < obstacles[i].y + obstacleHeight) {
+        if(marioX > obstacles[i].x && marioX < obstacles[i].x + obstacleWidth  && marioY > obstacles[i].y && marioY < obstacles[i].y + obstacleHeight + 50) {
             console.log("game Over");
-            console.log(`obstacle : x = obstacles${[i]}.x`)
-            console.log(`obstacle : y = obstacles${[i]}.y`)
+            console.log(`obstacle : x = ${obstacles[i].x}`)
+            console.log(`obstacle : y = ${obstacles[i].y}`)
             console.log(`MarioX : x = ${marioX}`)
             console.log(`Mario Y: ${marioY}`)
             console.log(`obstacle Width : ${obstacleWidth}`)
             console.log(`obstacle height : ${obstacleHeight}`)
-
-            debugger
+            
+            console.log('hit')
+            // document.getElementById('marioCanvas').after('<p>HIT</p>');
+            alive=false;
         } 
+        
     }
 }
 
@@ -75,14 +80,15 @@ function draw(){
         
         obstacles[i].x -= 2;
 
-        if(obstacles[i].x < 355){
-            obstacles.push({
+        if(obstacles[obstacles.length-1].x < 355){
+            obstacles.push(
+                {
                 x : 925,
                 y : 280,
-            })
-        } if(obstacles[i] < marioX){
-            score++
-        }
+                })
+                score++
+            }
+            
     };
 
     c.drawImage(playerRightImg, marioX ,marioY);
@@ -90,10 +96,13 @@ function draw(){
     c.font = "20px arial"
     c.fillText("Score :" +score,10, 10)
 
-    requestAnimationFrame(draw);  
+    
     gravityfunction();
-    collisionDetection();
+    if(alive) collisionDetection();
+    if(alive) requestAnimationFrame(draw);  
 };
+
+// draw();
 
 function moveSquare(e){
     e.preventDefault();
@@ -149,6 +158,7 @@ function moveSquare(e){
             // down key is pressed
             break;
     };
+    
 }
 
-draw();
+document.getElementById("Start").addEventListener("click", draw, false)
