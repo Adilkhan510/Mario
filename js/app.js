@@ -12,11 +12,17 @@ var px = 0;
 var py = 0;
 var marioX = 285 ;
 var marioY = 365 ;
-var gravity = -4.5
+var gravityfunction = function (){
+    if (marioY <365){
+        marioY += 0.5 
+    } else{
+        marioY = marioY;
+    }
+}
 var obstacles = [];
 
 obstacles[0] = {
-    x:canvas.width,
+    x: window.width,
     y: 280
 };
 
@@ -28,19 +34,28 @@ obstacle.src = "images/obstacle.png"
 
 window.addEventListener("keydown", moveSquare, false);
 
+function getDistance(x1,y1,x2,y2){
+    let xDifference  = x2-x1
+    let yDifference = y2-y1
+    return Math.sqrt(Math.pow(xDifference,2) + Math.pow(yDifference,2))
+}
+
 function draw(){
 
     c.clearRect(0,0,canvas.width,canvas.height)
-    // for(let i=0; i<obstacles.length; i++){
-    //     c.drawImage(obstacle,obstacles[i].x,obstacles[i].y, 50, 50);
-    //     console.log(obstacles[i].x -= 1);
-    // }
+    // for(let i=0; i<1; i++){
+    //     c.drawImage(obstacle,obstacles.x,obstacles.y, 50, 50);
+    //     obstacles.x;
+    //     console.log(obstacles.x -= 10);
+    // };
     c.drawImage(bg,0,0,canvas.width, canvas.height);
     // c.drawImage(playerLeftImg, 20, 20 )
     c.drawImage(playerRightImg, marioX ,marioY);
     // c.drawImage(obstacle,280, 255, 50,50);
+    console.log(getDistance(925,200,marioX,marioY))
+
     requestAnimationFrame(draw);  
-    marioY -= gravity;
+    gravityfunction();
 };
 draw();
 
@@ -62,7 +77,7 @@ function moveSquare(e){
         case 32:
             // space key is pressed
             if(marioY > 0){
-                (marioY-= 60) + gravity;
+                (marioY-= 90);
                 marioX += 0;
             } else if(marioY <=0){
                 marioY -= 0;
@@ -73,12 +88,14 @@ function moveSquare(e){
             break;
         case 39:
             // right key is pressed
-            if(marioX < canvas.width){
+            if(marioX < 925 ){
                 marioY+= 0;
                 marioX += 10;
-            } else if(marioX >= canvas.width){
+                console.log(marioX)
+            } else if(marioX >= 925){
                 marioY -= 0;
-                marioX -=0;
+                marioX += 0;
+                console.log(marioX)
             }
             draw();
     
