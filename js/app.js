@@ -3,7 +3,7 @@ canvas.height= 477;
 canvas.width = 960;
 let c = canvas.getContext('2d');
 
-// Load the images
+// Create Variables
 var bg = new Image();
 var playerLeftImg = new Image();
 var playerRightImg= new Image();
@@ -18,6 +18,8 @@ var marioY = 365 ;
 var obstacleWidth = 30;
 var obstacleHeight = 50
 var score = 0;
+
+
 var gravityfunction = function (){
     if (marioY <365){
         marioY += 1.5 
@@ -25,8 +27,7 @@ var gravityfunction = function (){
         marioY = marioY;
     }
 };
-// Timer Countdown Functions
-// Every second, reduce countdown by 1. When no time is left, stop the countdown, display score, offer "try again" button. On button click, restart countdown
+
 
 
 
@@ -37,11 +38,11 @@ obstacle.src = "images/obstacle.png"
 
 window.addEventListener("keydown", moveSquare, false);
 
-function getDistance(x1,y1,x2,y2){
-    let xDifference  = x2-x1
-    let yDifference = y2-y1
-    return Math.sqrt(Math.pow(xDifference,2) + Math.pow(yDifference,2))
-};
+// function getDistance(x1,y1,x2,y2){
+//     let xDifference  = x2-x1
+//     let yDifference = y2-y1
+//     return Math.sqrt(Math.pow(xDifference,2) + Math.pow(yDifference,2))
+// };
 var obstacles = [];
 
 obstacles[0] = {
@@ -50,8 +51,22 @@ obstacles[0] = {
 }
 var obstacleX = 925;
 var obstacleY = 365;
+var speed = 4;
 
 let alive = true;
+
+const gameOverFunc = () => {
+    // c.clearRect(0,0,canvas.width,canvas.height);
+    // c.fillStyle = "yellow";
+    // c.font = "50px Bungee Shade";
+    // c.fillText("Game Over",canvas.width,canvas.height);
+    // document.getElementsByClassName('game-over')[0].innerText = `GAME OVER`
+    // document.getElementsByClassName('game-over')[0].id = 'show'
+    document.getElementsByClassName('game-over')[0].innerText = `GAME OVER`
+    document.getElementsByClassName('game-over')[0].id = 'show'
+    
+}
+
 function collisionDetection(){
     for (let i = 0; i<obstacles.length; i++){
         if(marioX > obstacles[i].x && marioX < obstacles[i].x + obstacleWidth  && marioY > obstacles[i].y && marioY < obstacles[i].y + obstacleHeight + 50) {
@@ -73,14 +88,11 @@ function collisionDetection(){
     }
 };
 var time = 0;
-const timer = setInterval(() => {
-    time++;
-
-  }, 1000)
+const timer = function(){
+    setInterval(() => {time++; }, 1000)}
 
 
 function draw(){
-
     c.clearRect(0,0,canvas.width,canvas.height);
 
     c.drawImage(bg,0,0,canvas.width, canvas.height);
@@ -88,10 +100,10 @@ function draw(){
     for(let i=0; i<obstacles.length; i++){
 
         c.drawImage(obstacle,obstacles[i].x,360, obstacleWidth, obstacleHeight);
-        if(time > 10 ){
-            obstacles[i].x -= 1
-        }
-        obstacles[i].x -= 2;
+        
+        obstacles[i].x -= 1 * (time/3)
+
+        // obstacles[i].x -= speed;
         if(obstacles[i].x < 0){
             obstacles.shift();
         }
@@ -103,7 +115,7 @@ function draw(){
                 x : 925,
                 y : 280,
                 })
-                // score++
+                speed++
             }
             
     };
@@ -116,10 +128,12 @@ function draw(){
     
     gravityfunction();
     if(alive) collisionDetection();
-    if(alive) requestAnimationFrame(draw);  
+    if(alive) requestAnimationFrame(draw); 
+    if(!alive) requestAnimationFrame(gameOverFunc); 
 };
 
 // draw();
+
 
 function moveSquare(e){
     e.preventDefault();
@@ -138,7 +152,7 @@ function moveSquare(e){
             break;
         case 32:
             // space key is pressed
-            if(marioY -160 > 0){
+            if(marioY > 300){
                 (marioY-= 130);
                 marioX += 0;
             } else if(marioY <=0){
@@ -178,4 +192,14 @@ function moveSquare(e){
     
 }
 
-document.getElementById("Start").addEventListener("click", draw, false)
+function startGame(){
+    draw();
+    timer();
+}
+function resetGame(){
+    startGame();
+}
+
+document.getElementById("Start").addEventListener("click", startGame, false)
+// document.getElementsByClassName('game-over').addEventListener('click', resetGame, false)
+

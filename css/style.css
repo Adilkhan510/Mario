@@ -32,3 +32,22 @@ button{
     border: 1px solid black;
     font-family: Bungee Shade;
 }
+
+.game-over{
+    width: 300.68px;
+    height: 40.68px;
+    position: absolute;
+    top: 30%;
+    left: calc(50% - (300.68px/2));
+    color: rgba(15, 29, 226, 0.87);
+    font-size: 30px;
+    background-color: gold;
+    border: 1px solid black;
+    font-family: Bungee Shade;
+    display: none;
+}
+
+#show{
+    display: inline-block;
+    text-align: center;
+}
