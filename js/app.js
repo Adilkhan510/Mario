@@ -10,6 +10,8 @@ var playerRightImg= new Image();
 var obstacle = new Image();
 var px = 0;
 var py = 0;
+var gameOver = new Image();
+gameOver.src= "images/gameover.jpg"
 timeLeft = 30;
 var marioX = 283 ;
 var marioY = 365 ;
@@ -53,6 +55,8 @@ let alive = true;
 function collisionDetection(){
     for (let i = 0; i<obstacles.length; i++){
         if(marioX > obstacles[i].x && marioX < obstacles[i].x + obstacleWidth  && marioY > obstacles[i].y && marioY < obstacles[i].y + obstacleHeight + 50) {
+        //     console.log(`${obstacles[i].x}`)
+        // if(marioX == obstacles[i].x && marioY == obstacles[i].y){
             console.log("game Over");
             console.log(`obstacle : x = ${obstacles[i].x}`)
             console.log(`obstacle : y = ${obstacles[i].y}`)
@@ -67,18 +71,31 @@ function collisionDetection(){
         } 
         
     }
-}
+};
+var time = 0;
+const timer = setInterval(() => {
+    time++;
+
+  }, 1000)
+
 
 function draw(){
 
     c.clearRect(0,0,canvas.width,canvas.height);
 
     c.drawImage(bg,0,0,canvas.width, canvas.height);
+
     for(let i=0; i<obstacles.length; i++){
 
         c.drawImage(obstacle,obstacles[i].x,360, obstacleWidth, obstacleHeight);
-        
+        if(time > 10 ){
+            obstacles[i].x -= 1
+        }
         obstacles[i].x -= 2;
+        if(obstacles[i].x < 0){
+            obstacles.shift();
+        }
+
 
         if(obstacles[obstacles.length-1].x < 355){
             obstacles.push(
@@ -86,7 +103,7 @@ function draw(){
                 x : 925,
                 y : 280,
                 })
-                score++
+                // score++
             }
             
     };
@@ -94,7 +111,7 @@ function draw(){
     c.drawImage(playerRightImg, marioX ,marioY);
     c.fillStyle = "black";
     c.font = "20px arial"
-    c.fillText("Score :" +score,10, 10)
+    c.fillText("Time :" +time,10, 30)
 
     
     gravityfunction();
@@ -109,7 +126,7 @@ function moveSquare(e){
     switch(e.keyCode){
         case 37:
             // left key is pressed
-            if(marioX > 0) {
+            if(marioX -70 > 0) {
                 marioX -= 70;
                 marioY-=0;
                 console.log(marioX)
@@ -121,8 +138,8 @@ function moveSquare(e){
             break;
         case 32:
             // space key is pressed
-            if(marioY > 0){
-                (marioY-= 160);
+            if(marioY -160 > 0){
+                (marioY-= 130);
                 marioX += 0;
             } else if(marioY <=0){
                 marioY -= 0;
@@ -133,7 +150,7 @@ function moveSquare(e){
             break;
         case 39:
             // right key is pressed
-            if(marioX < 925 ){
+            if(marioX +70 < 925 ){
                 marioY+= 0;
                 marioX += 70;
                 console.log(marioX)
@@ -146,7 +163,7 @@ function moveSquare(e){
     
             break;
         case 40:
-            if(marioY < 365){
+            if(marioY +70 < 365){
                 marioY += 70;
                 marioX -=0;
                 console.log(marioY)

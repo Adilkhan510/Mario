@@ -26,7 +26,9 @@ button{
     height: 70.68px;
     position: relative;
     bottom: 40%;
+    color: rgba(15, 29, 226, 0.87);
     font-size: 30px;
     background-color: gold;
     border: 1px solid black;
+    font-family: Bungee Shade;
 }
