@@ -93,43 +93,46 @@ const timer = function(){
 
 
 function draw(){
-    c.clearRect(0,0,canvas.width,canvas.height);
+    if(alive){
+        c.clearRect(0,0,canvas.width,canvas.height);
 
-    c.drawImage(bg,0,0,canvas.width, canvas.height);
+        c.drawImage(bg,0,0,canvas.width, canvas.height);
 
-    for(let i=0; i<obstacles.length; i++){
+        for(let i=0; i<obstacles.length; i++){
 
-        c.drawImage(obstacle,obstacles[i].x,360, obstacleWidth, obstacleHeight);
-        
-        obstacles[i].x -= 1 * (time/3)
-
-        // obstacles[i].x -= speed;
-        if(obstacles[i].x < 0){
-            obstacles.shift();
-        }
-
-
-        if(obstacles[obstacles.length-1].x < 355){
-            obstacles.push(
-                {
-                x : 925,
-                y : 280,
-                })
-                speed++
-            }
+            c.drawImage(obstacle,obstacles[i].x,360, obstacleWidth, obstacleHeight);
             
-    };
+            obstacles[i].x -= 1 * (time/3)
 
-    c.drawImage(playerRightImg, marioX ,marioY);
-    c.fillStyle = "black";
-    c.font = "20px arial"
-    c.fillText("Time :" +time,10, 30)
+            // obstacles[i].x -= speed;
+            if(obstacles[i].x < 0){
+                obstacles.shift();
+            }
 
-    
-    gravityfunction();
-    if(alive) collisionDetection();
-    if(alive) requestAnimationFrame(draw); 
-    if(!alive) requestAnimationFrame(gameOverFunc); 
+
+            if(obstacles[obstacles.length-1].x < 355){
+                obstacles.push(
+                    {
+                    x : 925,
+                    y : 280,
+                    })
+                    speed++
+                }
+                
+        };
+
+        c.drawImage(playerRightImg, marioX ,marioY);
+        c.fillStyle = "black";
+        c.font = "20px arial"
+        c.fillText("Time :" +time,10, 30)
+
+        
+        gravityfunction();
+        collisionDetection();}
+     else{gameOverFunc()}
+
+
+    requestAnimationFrame(draw); 
 };
 
 // draw();
@@ -193,13 +196,18 @@ function moveSquare(e){
 }
 
 function startGame(){
+    let canvas = document.querySelector('canvas');
+    canvas.height= 477;
+    canvas.width = 960;
+    let c = canvas.getContext('2d');
     draw();
     timer();
 }
 function resetGame(){
+    $(".game-over").hide();
     startGame();
+    
 }
 
-document.getElementById("Start").addEventListener("click", startGame, false)
-// document.getElementsByClassName('game-over').addEventListener('click', resetGame, false)
-
+$('body').on("click", '#Start', startGame)
+$("body").on('click',".game-over", resetGame)
