@@ -19,10 +19,10 @@ var obstacleWidth = 30;
 var obstacleHeight = 50
 var score = 0;
 
-
+// Gravity Function 
 var gravityfunction = function (){
     if (marioY <365){
-        marioY += 1.5 
+        marioY += 3.5 
     } else{
         marioY = marioY;
     }
@@ -54,7 +54,7 @@ var obstacleY = 365;
 var speed = 4;
 
 let alive = true;
-
+// Ends the game;
 const gameOverFunc = () => {
     // c.clearRect(0,0,canvas.width,canvas.height);
     // c.fillStyle = "yellow";
@@ -205,7 +205,8 @@ function startGame(){
 }
 function resetGame(){
     $(".game-over").hide();
-    startGame();
+    canvas.height= 477;
+    canvas.width = 960;
     
 }
 
