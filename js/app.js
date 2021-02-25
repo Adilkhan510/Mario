@@ -31,7 +31,7 @@ var gravityfunction = function (){
 
 
 
-bg.src = "/images/background.png";
+bg.src = "images/background.png";
 playerLeftImg.src = "images/marioleft.png";
 playerRightImg.src = "images/marioright.png";
 obstacle.src = "images/obstacle.png"
